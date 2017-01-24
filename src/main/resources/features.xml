@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="trellis-jms-${project.version}">
+
+  <repository>mvn:edu.amherst.acdc/trellis-spi/${trellisSpiVersion}/xml/features</repository>
+
+  <feature name="trellis-jms" version="${project.version}">
+    <details>Installs the Trellis JMS service bundle</details>
+
+    <feature>trellis-spi</feature>
+
+    <bundle dependency="true">mvn:org.apache.activemq/activemq-osgi/${activeMqVersion}</bundle>
+    <bundle>mvn:edu.amherst.acdc/trellis-jms/${project.version}</bundle>
+  </feature>
+</features>
