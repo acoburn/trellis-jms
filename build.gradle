@@ -1,0 +1,233 @@
+plugins {
+    id 'com.github.hierynomus.license' version '0.13.1'
+    id 'net.researchgate.release' version '2.4.0'
+    id 'org.sonarqube' version '2.2.1'
+}
+
+apply plugin: 'maven'
+apply plugin: 'osgi'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'checkstyle'
+apply plugin: 'com.github.hierynomus.license'
+apply plugin: 'jacoco'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+group = 'edu.amherst.acdc'
+description = 'Trellis JMS Connector'
+
+ext {
+    vendor = 'Amherst College'
+    homepage = 'https://www.amherst.edu'
+    docURL = 'https://acdc.amherst.edu/wiki'
+    license = 'Apache 2'
+
+    /* Dependencies */
+    trellisSpiVersion = '0.1.0-SNAPSHOT'
+    activeMqVersion = '5.14.3'
+    slf4jVersion = '1.7.21'
+
+    /* OSGi */
+    projectOsgiVersion = project.version.replaceAll("-SNAPSHOT", ".SNAPSHOT")
+}
+
+configurations {
+    buildToolsConfig
+}
+
+dependencies {
+    compile group: 'edu.amherst.acdc', name: 'trellis-spi', version: trellisSpiVersion
+    compile group: 'org.apache.activemq', name: 'activemq-osgi', version: activeMqVersion
+    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+
+    buildToolsConfig 'edu.amherst.acdc:acrepo-build-tools:0.2.0'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+    // TODO -- remove this after the first release of the API
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
+}
+
+release {
+    tagTemplate = '$name-$version'
+}
+
+jar {
+    manifest {
+        description project.description
+        docURL project.docURL
+        vendor project.vendor
+        license project.license
+
+        instruction 'Import-Package', '*'
+        instruction 'Export-Package', "edu.amherst.acdc.trellis.jms;version=${projectOsgiVersion}"
+    }
+}
+
+task sourceJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar) {
+    classifier 'javadoc'
+    from javadoc
+}
+
+artifacts {
+    archives javadocJar
+    archives sourceJar
+    archives (file('build/resources/main/features.xml')) {
+        classifier 'features'
+        type 'xml'
+    }
+}
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
+
+license {
+    include "**/*.java"
+    header rootProject.file('build/license/HEADER.txt')
+    strictCheck true
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+processResources {
+    outputs.upToDateWhen { false }
+    expand project.properties
+}
+
+signing {
+    required { !version.endsWith("SNAPSHOT") && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        def sonatypeUsername = project.hasProperty('ossrhUsername') ? ossrhUsername : ""
+        def sonatypePassword = project.hasProperty('ossrhPassword') ? ossrhPassword : ""
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+
+        pom.project {
+            packaging 'jar'
+            url 'https://acdc.amherst.edu/wiki'
+            inceptionYear '2017'
+            name 'Amherst College Trellis Repository JMS Messaging Connector'
+            description 'An JMS connector for a trellis repository'
+
+            organization {
+                name project.vendor
+                url project.homepage
+            }
+
+            developers {
+                developer {
+                    id 'acoburn'
+                    name 'Aaron Coburn'
+                    email 'acoburn @ (domain of organization url)'
+                    organization 'Amherst College'
+                    organizationUrl 'https://www.amherst.edu'
+                    roles {
+                        role 'developer'
+                    }
+                    timezone '-5'
+                }
+                developer {
+                    id 'bseeger'
+                    name 'Bethany Seeger'
+                    email 'bseeger @ (domain of organization url)'
+                    organization 'Amherst College'
+                    organizationUrl 'https://www.amherst.edu'
+                    roles {
+                        role 'developer'
+                    }
+                    timezone '-5'
+                }
+            }
+
+            scm {
+                connection 'scm:git:git://github.com/acoburn/trellis-jms.git'
+                developerConnection 'scm:git:git@github.com/acoburn/trellis-jms.git'
+                url 'https://github.com/acoburn/trellis-jms'
+                tag 'HEAD'
+            }
+
+            licenses {
+                license {
+                    name 'Apache License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0'
+                    comments 'Copyright (c) 2017 Amherst College'
+                }
+            }
+        }
+    }
+}
+
+task processBuildTools(type: Copy) {
+    from {
+        configurations.buildToolsConfig.collect {
+            zipTree(it).matching {
+                include 'checkstyle/*.xml'
+                include 'license/*.txt'
+            }
+        }
+    }
+    into 'build'
+}
+
+checkstyle {
+    configFile = rootProject.file('build/checkstyle/checkstyle.xml')
+    configProperties.checkstyleConfigDir = rootProject.file('build/checkstyle/')
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "Amherst College Trellis Repository JMS Connector"
+        property "sonar.projectKey", "edu.amherst.acdc:trellis-jms"
+    }
+}
+
+task docs(type: Javadoc) {
+    source sourceSets.main.allJava
+    classpath = files(sourceSets.main.compileClasspath)
+    destinationDir = new File(projectDir, "docs/${version}")
+}
+
+checkstyleMain.dependsOn processBuildTools
+afterReleaseBuild.dependsOn docs
+
