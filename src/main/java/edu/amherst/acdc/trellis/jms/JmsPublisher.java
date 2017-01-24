@@ -53,7 +53,7 @@ public class JmsPublisher implements EventService {
 
     /**
      * Create a new JMS Publisher
-     * @throws IOException when there is an error connecting to the AMQP broker
+     * @throws IOException when there is an error connecting to the JMS broker
      * @throws JMSException when there is a JMS error
      */
     public JmsPublisher() throws IOException, JMSException {
