@@ -41,7 +41,7 @@ configurations {
 
 dependencies {
     compile group: 'edu.amherst.acdc', name: 'trellis-spi', version: trellisSpiVersion
-    compile group: 'org.apache.activemq', name: 'activemq-osgi', version: activeMqVersion
+    compile group: 'org.apache.activemq', name: 'activemq-client', version: activeMqVersion
     compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
 
     buildToolsConfig 'edu.amherst.acdc:acrepo-build-tools:0.2.0'
