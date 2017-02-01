@@ -181,9 +181,9 @@ uploadArchives {
             }
 
             scm {
-                connection 'scm:git:git://github.com/acoburn/trellis-jms.git'
-                developerConnection 'scm:git:git@github.com/acoburn/trellis-jms.git'
-                url 'https://github.com/acoburn/trellis-jms'
+                connection 'scm:git:git://github.com/trellis-ldp/trellis-jms.git'
+                developerConnection 'scm:git:git@github.com/trellis-ldp/trellis-jms.git'
+                url 'https://github.com/trellis-ldp/trellis-jms'
                 tag 'HEAD'
             }
 
