@@ -28,9 +28,9 @@ import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
-import edu.amherst.acdc.trellis.api.RuntimeRepositoryException;
 import edu.amherst.acdc.trellis.spi.Event;
 import edu.amherst.acdc.trellis.spi.EventService;
+import edu.amherst.acdc.trellis.spi.RuntimeRepositoryException;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 
