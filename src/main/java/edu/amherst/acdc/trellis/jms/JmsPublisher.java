@@ -30,7 +30,6 @@ import javax.jms.Session;
 
 import edu.amherst.acdc.trellis.spi.Event;
 import edu.amherst.acdc.trellis.spi.EventService;
-import edu.amherst.acdc.trellis.spi.RuntimeRepositoryException;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 
@@ -90,15 +89,14 @@ public class JmsPublisher implements EventService {
     public void emit(final Event event) {
         requireNonNull(event, "Cannot emit a null event!");
 
-        final String json = serialize(event).orElseThrow(() ->
-                new RuntimeRepositoryException("Unable to serialize event!"));
-
-        try {
-            final Message message = session.createTextMessage(json);
-            message.setStringProperty("Content-Type", "application/ld+json");
-            producer.send(message);
-        } catch (final JMSException ex) {
-            LOGGER.error("Error writing to broker: " + ex.getMessage());
-        }
+        serialize(event).ifPresent(json -> {
+            try {
+                final Message message = session.createTextMessage(json);
+                message.setStringProperty("Content-Type", "application/ld+json");
+                producer.send(message);
+            } catch (final JMSException ex) {
+                LOGGER.error("Error writing to broker: " + ex.getMessage());
+            }
+        });
     }
 }
