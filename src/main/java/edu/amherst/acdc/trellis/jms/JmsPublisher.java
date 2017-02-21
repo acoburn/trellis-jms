@@ -15,11 +15,14 @@
  */
 package edu.amherst.acdc.trellis.jms;
 
+import static edu.amherst.acdc.trellis.spi.EventService.serialize;
 import static java.lang.System.getProperty;
 import static java.util.Objects.requireNonNull;
-import static edu.amherst.acdc.trellis.spi.EventService.serialize;
 import static javax.jms.Session.AUTO_ACKNOWLEDGE;
 import static org.slf4j.LoggerFactory.getLogger;
+
+import edu.amherst.acdc.trellis.spi.Event;
+import edu.amherst.acdc.trellis.spi.EventService;
 
 import java.io.IOException;
 import javax.jms.Connection;
@@ -28,8 +31,6 @@ import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
-import edu.amherst.acdc.trellis.spi.Event;
-import edu.amherst.acdc.trellis.spi.EventService;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 
