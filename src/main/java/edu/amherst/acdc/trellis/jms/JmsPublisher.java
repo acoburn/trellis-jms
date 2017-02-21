@@ -96,8 +96,17 @@ public class JmsPublisher implements EventService {
                 message.setStringProperty("Content-Type", "application/ld+json");
                 producer.send(message);
             } catch (final JMSException ex) {
-                LOGGER.error("Error writing to broker: " + ex.getMessage());
+                LOGGER.error("Error writing to broker: {}", ex.getMessage());
             }
         });
+    }
+
+    @Override
+    public void close() {
+        try {
+            conn.close();
+        } catch (final JMSException ex) {
+            LOGGER.error("Error closing broker connection: {}", ex.getMessage());
+        }
     }
 }
