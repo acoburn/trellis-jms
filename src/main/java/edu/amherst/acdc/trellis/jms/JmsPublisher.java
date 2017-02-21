@@ -17,6 +17,7 @@ package edu.amherst.acdc.trellis.jms;
 
 import static edu.amherst.acdc.trellis.spi.EventService.serialize;
 import static java.lang.System.getProperty;
+import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static javax.jms.Session.AUTO_ACKNOWLEDGE;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -75,7 +76,7 @@ public class JmsPublisher implements EventService {
         requireNonNull(queueName);
 
         factory.setBrokerURL(uri);
-        if (username != null && password != null) {
+        if (nonNull(username) && nonNull(password)) {
             factory.setUserName(username);
             factory.setPassword(password);
         }
