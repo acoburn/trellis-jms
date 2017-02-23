@@ -40,7 +40,7 @@ import org.slf4j.Logger;
  *
  * @author acoburn
  */
-public class JmsPublisher implements EventService {
+public class JmsPublisher implements EventService, AutoCloseable {
 
     private static final Logger LOGGER = getLogger(JmsPublisher.class);
 
@@ -103,11 +103,7 @@ public class JmsPublisher implements EventService {
     }
 
     @Override
-    public void close() {
-        try {
-            conn.close();
-        } catch (final JMSException ex) {
-            LOGGER.error("Error closing broker connection: {}", ex.getMessage());
-        }
+    public void close() throws JMSException {
+        conn.close();
     }
 }
