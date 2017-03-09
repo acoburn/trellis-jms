@@ -226,9 +226,16 @@ sonarqube {
 }
 
 task docs(type: Javadoc) {
+    outputs.upToDateWhen { false }
     source sourceSets.main.allJava
     classpath = files(sourceSets.main.compileClasspath)
     destinationDir = new File(projectDir, "docs/${version}")
+    options {
+        links "http://docs.oracle.com/javase/8/docs/api/"
+        links "https://commons.apache.org/proper/commons-rdf/apidocs/"
+        // TODO -- add link to trellis-spi, when it becomes available
+        // links "https://trellis-ldp.github.io/trellis-spi/0.1.0/"
+    }
 }
 
 checkstyleMain.dependsOn processBuildTools
