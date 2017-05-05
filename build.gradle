@@ -17,13 +17,13 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 
-group = 'edu.amherst.acdc'
+group = 'org.trellisldp'
 description = 'Trellis JMS Connector'
 
 ext {
-    vendor = 'Amherst College'
-    homepage = 'https://www.amherst.edu'
-    docURL = 'https://acdc.amherst.edu/wiki'
+    vendor = 'Trellis LDP'
+    homepage = 'http://www.trellisldp.org'
+    docURL = 'http://www.trellisldp.org/apidocs'
     license = 'Apache 2'
 
     /* Dependencies */
@@ -40,11 +40,11 @@ configurations {
 }
 
 dependencies {
-    compile group: 'edu.amherst.acdc', name: 'trellis-spi', version: trellisSpiVersion
+    compile group: 'org.trellisldp', name: 'trellis-spi', version: trellisSpiVersion
     compile group: 'org.apache.activemq', name: 'activemq-client', version: activeMqVersion
     compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
 
-    buildToolsConfig 'edu.amherst.acdc:acrepo-build-tools:0.2.0'
+    buildToolsConfig 'org.trellisldp:trellis-build-tools:0.1.1'
 }
 
 repositories {
@@ -75,7 +75,7 @@ jar {
         license project.license
 
         instruction 'Import-Package', '*'
-        instruction 'Export-Package', "edu.amherst.acdc.trellis.jms;version=${projectOsgiVersion}"
+        instruction 'Export-Package', "org.trellisldp.jms;version=${projectOsgiVersion}"
     }
 }
 
@@ -145,9 +145,9 @@ uploadArchives {
 
         pom.project {
             packaging 'jar'
-            url 'https://acdc.amherst.edu/wiki'
+            url 'http://www.trellisldp.org'
             inceptionYear '2017'
-            name 'Amherst College Trellis Repository JMS Messaging Connector'
+            name 'Trellis Repository JMS Messaging Connector'
             description 'An JMS connector for a trellis repository'
 
             organization {
@@ -160,17 +160,6 @@ uploadArchives {
                     id 'acoburn'
                     name 'Aaron Coburn'
                     email 'acoburn @ (domain of organization url)'
-                    organization 'Amherst College'
-                    organizationUrl 'https://www.amherst.edu'
-                    roles {
-                        role 'developer'
-                    }
-                    timezone '-5'
-                }
-                developer {
-                    id 'bseeger'
-                    name 'Bethany Seeger'
-                    email 'bseeger @ (domain of organization url)'
                     organization 'Amherst College'
                     organizationUrl 'https://www.amherst.edu'
                     roles {
@@ -191,7 +180,7 @@ uploadArchives {
                 license {
                     name 'Apache License, Version 2.0'
                     url 'http://www.apache.org/licenses/LICENSE-2.0'
-                    comments 'Copyright (c) 2017 Amherst College'
+                    comments 'Copyright (c) 2017 Trellis LDP'
                 }
             }
         }
@@ -218,7 +207,7 @@ checkstyle {
 sonarqube {
     properties {
         property "sonar.projectName", "Trellis Repository JMS Connector"
-        property "sonar.projectKey", "edu.amherst.acdc:trellis-jms"
+        property "sonar.projectKey", "org.trellisldp-jms"
         property "sonar.links.homepage", "https://github.com/trellis-ldp/trellis"
         property "sonar.links.issue", "https://github.com/trellis-ldp/trellis-jms/issues"
         property "sonar.links.scm_dev", "scm:git:git@github.com:trellis-ldp/trellis-jms.git"
