@@ -207,7 +207,7 @@ checkstyle {
 sonarqube {
     properties {
         property "sonar.projectName", "Trellis Repository JMS Connector"
-        property "sonar.projectKey", "org.trellisldp-jms"
+        property "sonar.projectKey", "org.trellisldp:trellis-jms"
         property "sonar.links.homepage", "https://github.com/trellis-ldp/trellis"
         property "sonar.links.issue", "https://github.com/trellis-ldp/trellis-jms/issues"
         property "sonar.links.scm_dev", "scm:git:git@github.com:trellis-ldp/trellis-jms.git"
