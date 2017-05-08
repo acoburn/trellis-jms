@@ -13,15 +13,12 @@
  */
 package org.trellisldp.jms;
 
-import static org.trellisldp.spi.EventService.serialize;
 import static java.lang.System.getProperty;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static javax.jms.Session.AUTO_ACKNOWLEDGE;
 import static org.slf4j.LoggerFactory.getLogger;
-
-import org.trellisldp.spi.Event;
-import org.trellisldp.spi.EventService;
+import static org.trellisldp.spi.EventService.serialize;
 
 import java.io.IOException;
 import javax.jms.Connection;
@@ -32,6 +29,8 @@ import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
+import org.trellisldp.spi.Event;
+import org.trellisldp.spi.EventService;
 
 /**
  * A JMS message producer capable of publishing messages to a JMS broker such as ActiveMQ.
