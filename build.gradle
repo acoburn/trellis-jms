@@ -31,6 +31,12 @@ ext {
     activeMqVersion = '5.14.3'
     slf4jVersion = '1.7.21'
 
+    /* Testing */
+    junitVersion = '4.12'
+    mockitoVersion = '2.8.47'
+    commonsRdfVersion = '0.3.0-incubating'
+    logbackVersion = '1.1.7'
+
     /* OSGi */
     projectOsgiVersion = project.version.replaceAll("-SNAPSHOT", ".SNAPSHOT")
 }
@@ -43,6 +49,11 @@ dependencies {
     compile group: 'org.trellisldp', name: 'trellis-spi', version: trellisSpiVersion
     compile group: 'org.apache.activemq', name: 'activemq-client', version: activeMqVersion
     compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
+    testCompile group: 'org.apache.commons', name: 'commons-rdf-simple', version: commonsRdfVersion
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
 
     buildToolsConfig 'org.trellisldp:trellis-build-tools:0.1.1'
 }

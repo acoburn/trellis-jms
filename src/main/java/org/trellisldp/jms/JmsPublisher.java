@@ -13,21 +13,17 @@
  */
 package org.trellisldp.jms;
 
-import static java.lang.System.getProperty;
-import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static javax.jms.Session.AUTO_ACKNOWLEDGE;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.trellisldp.spi.EventService.serialize;
 
-import java.io.IOException;
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.trellisldp.spi.Event;
 import org.trellisldp.spi.EventService;
@@ -37,13 +33,9 @@ import org.trellisldp.spi.EventService;
  *
  * @author acoburn
  */
-public class JmsPublisher implements EventService, AutoCloseable {
+public class JmsPublisher implements EventService {
 
     private static final Logger LOGGER = getLogger(JmsPublisher.class);
-
-    private static final ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
-
-    private final Connection conn;
 
     private final MessageProducer producer;
 
@@ -51,37 +43,26 @@ public class JmsPublisher implements EventService, AutoCloseable {
 
     /**
      * Create a new JMS Publisher
-     * @throws IOException when there is an error connecting to the JMS broker
+     * @param conn the connection
+     * @param queueName the name of the queue
      * @throws JMSException when there is a JMS error
      */
-    public JmsPublisher() throws IOException, JMSException {
-        this(getProperty("trellis.jms.uri"), "event", null, null);
+    public JmsPublisher(final Connection conn, final String queueName) throws JMSException {
+        this(conn.createSession(false, AUTO_ACKNOWLEDGE), queueName);
     }
 
     /**
      * Create a new JMS Publisher
-     * @param uri the connection URI
+     * @param session the JMS session
      * @param queueName the name of the queue
-     * @param username the username
-     * @param password the password
-     * @throws IOException when there is an error connecting to the JMS broker
      * @throws JMSException when there is a JMS error
      */
-    public JmsPublisher(final String uri, final String queueName, final String username, final String password)
-            throws IOException, JMSException {
-        requireNonNull(uri);
+    public JmsPublisher(final Session session, final String queueName) throws JMSException {
+        requireNonNull(session);
         requireNonNull(queueName);
 
-        factory.setBrokerURL(uri);
-        if (nonNull(username) && nonNull(password)) {
-            factory.setUserName(username);
-            factory.setPassword(password);
-        }
-
-        conn = factory.createConnection();
-        conn.start();
-        session = conn.createSession(false, AUTO_ACKNOWLEDGE);
-        producer = session.createProducer(session.createQueue(queueName));
+        this.session = session;
+        this.producer = session.createProducer(session.createQueue(queueName));
     }
 
     @Override
@@ -97,10 +78,5 @@ public class JmsPublisher implements EventService, AutoCloseable {
                 LOGGER.error("Error writing to broker: {}", ex.getMessage());
             }
         });
-    }
-
-    @Override
-    public void close() throws JMSException {
-        conn.close();
     }
 }
