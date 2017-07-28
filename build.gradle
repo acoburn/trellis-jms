@@ -234,8 +234,8 @@ task docs(type: Javadoc) {
     options {
         links "http://docs.oracle.com/javase/8/docs/api/"
         links "https://commons.apache.org/proper/commons-rdf/apidocs/"
-        // TODO -- add link to trellis-spi, when it becomes available
-        // links "https://trellis-ldp.github.io/trellis-spi/0.1.0/"
+        links "http://activemq.apache.org/maven/apidocs/"
+        links "http://www.trellisldp.org/apidocs/"
     }
 }
 
