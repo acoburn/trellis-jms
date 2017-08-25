@@ -8,7 +8,7 @@ plugins {
 
 apply plugin: 'maven'
 apply plugin: 'osgi'
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'checkstyle'
@@ -30,14 +30,16 @@ ext {
 
     /* Dependencies */
     trellisSpiVersion = '0.1.0-SNAPSHOT'
-    activeMqVersion = '5.15.0'
+    jmsApiVersion = '2.0.1'
     slf4jVersion = '1.7.25'
 
     /* Testing */
+    activeMqVersion = '5.15.0'
     junitVersion = '4.12'
     mockitoVersion = '2.8.47'
-    commonsRdfVersion = '0.3.0-incubating'
     logbackVersion = '1.2.3'
+    commonsRdfVersion = '0.3.0-incubating'
+    trellisVocabularyVersion = '0.1.0-SNAPSHOT'
 
     /* OSGi */
     projectOsgiVersion = project.version.replaceAll("-SNAPSHOT", ".SNAPSHOT")
@@ -48,14 +50,18 @@ configurations {
 }
 
 dependencies {
-    compile group: 'org.trellisldp', name: 'trellis-spi', version: trellisSpiVersion
-    compile group: 'org.apache.activemq', name: 'activemq-client', version: activeMqVersion
-    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+    api group: 'org.trellisldp', name: 'trellis-spi', version: trellisSpiVersion
+    api group: 'javax.jms', name: 'javax.jms-api', version: jmsApiVersion
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
 
     testCompile group: 'junit', name: 'junit', version: junitVersion
     testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
-    testCompile group: 'org.apache.commons', name: 'commons-rdf-simple', version: commonsRdfVersion
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+    testCompile group: 'org.apache.activemq', name: 'activemq-client', version: activeMqVersion
+    testCompile group: 'org.apache.commons', name: 'commons-rdf-api', version: commonsRdfVersion
+    testCompile group: 'org.apache.commons', name: 'commons-rdf-simple', version: commonsRdfVersion
+    testCompile group: 'org.trellisldp', name: 'trellis-vocabulary', version: trellisVocabularyVersion
 
     buildToolsConfig 'org.trellisldp:trellis-build-tools:0.1.1'
 }
