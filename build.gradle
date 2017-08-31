@@ -37,7 +37,7 @@ ext {
     /* Testing */
     activeMqVersion = '5.15.0'
     junitVersion = '4.12'
-    mockitoVersion = '2.8.47'
+    mockitoVersion = '2.9.0'
     logbackVersion = '1.2.3'
     commonsRdfVersion = '0.3.0-incubating'
     trellisVocabularyVersion = '0.1.0-SNAPSHOT'
