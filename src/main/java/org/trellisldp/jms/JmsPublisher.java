@@ -16,7 +16,8 @@ package org.trellisldp.jms;
 import static java.util.Objects.requireNonNull;
 import static javax.jms.Session.AUTO_ACKNOWLEDGE;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.trellisldp.spi.EventService.serialize;
+
+import java.util.ServiceLoader;
 
 import javax.jms.Connection;
 import javax.jms.JMSException;
@@ -25,8 +26,9 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 
 import org.slf4j.Logger;
-import org.trellisldp.spi.Event;
-import org.trellisldp.spi.EventService;
+import org.trellisldp.api.ActivityStreamService;
+import org.trellisldp.api.Event;
+import org.trellisldp.api.EventService;
 
 /**
  * A JMS message producer capable of publishing messages to a JMS broker such as ActiveMQ.
@@ -36,6 +38,9 @@ import org.trellisldp.spi.EventService;
 public class JmsPublisher implements EventService {
 
     private static final Logger LOGGER = getLogger(JmsPublisher.class);
+
+    // TODO - JDK9 ServiceLoader::findFirst
+    private static ActivityStreamService service = ServiceLoader.load(ActivityStreamService.class).iterator().next();
 
     private final MessageProducer producer;
 
@@ -69,7 +74,7 @@ public class JmsPublisher implements EventService {
     public void emit(final Event event) {
         requireNonNull(event, "Cannot emit a null event!");
 
-        serialize(event).ifPresent(json -> {
+        service.serialize(event).ifPresent(json -> {
             try {
                 final Message message = session.createTextMessage(json);
                 message.setStringProperty("Content-Type", "application/ld+json");

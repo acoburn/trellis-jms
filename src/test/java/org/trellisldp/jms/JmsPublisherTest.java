@@ -42,8 +42,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import org.trellisldp.spi.Event;
-import org.trellisldp.spi.EventService;
+import org.trellisldp.api.Event;
+import org.trellisldp.api.EventService;
 import org.trellisldp.vocabulary.AS;
 import org.trellisldp.vocabulary.LDP;
 import org.trellisldp.vocabulary.Trellis;
