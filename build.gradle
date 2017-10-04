@@ -30,7 +30,7 @@ ext {
     license = 'Apache 2'
 
     /* Dependencies */
-    trellisApiVersion = '0.2.0-SNAPSHOT'
+    trellisApiVersion = '0.2.0'
     jmsApiVersion = '2.0.1'
     slf4jVersion = '1.7.25'
 
@@ -41,7 +41,7 @@ ext {
     logbackVersion = '1.2.3'
     commonsRdfVersion = '0.3.0-incubating'
     trellisVocabularyVersion = '0.1.0'
-    trellisEventVersion = '0.1.0-SNAPSHOT'
+    trellisEventVersion = '0.1.0'
     jacocoVersion = "0.7.9"
 
     /* OSGi */
