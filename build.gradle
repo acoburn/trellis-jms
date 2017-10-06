@@ -35,7 +35,7 @@ ext {
     slf4jVersion = '1.7.25'
 
     /* Testing */
-    activeMqVersion = '5.15.0'
+    activeMqVersion = '5.15.1'
     junitVersion = '4.12'
     mockitoVersion = '2.10.0'
     logbackVersion = '1.2.3'
