@@ -1,12 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="trellis-jms-${project.version}">
-
-  <repository>mvn:org.trellisldp/trellis-api/${trellisApiVersion}/xml/features</repository>
-
   <feature name="trellis-jms" version="${project.version}">
     <details>Installs the Trellis JMS service bundle</details>
 
-    <feature>trellis-api</feature>
+    <feature version="${trellisApiVersionRange}">trellis-api</feature>
     <feature>transaction</feature>
 
     <bundle dependency="true">mvn:javax.jms/javax.jms-api/${jmsApiVersion}</bundle>
