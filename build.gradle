@@ -36,7 +36,9 @@ ext {
 
     /* Testing */
     activeMqVersion = '5.15.1'
-    junitVersion = '4.12.1'
+    junitVersion = '5.0.1'
+    junitPlatformVersion = '1.0.1'
+    apiguardianVersion = '1.0.0'
     mockitoVersion = '2.11.0'
     logbackVersion = '1.2.3'
     commonsRdfVersion = '0.3.0-incubating'
@@ -60,11 +62,13 @@ dependencies {
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
 
+    testImplementation group: 'org.apiguardian', name: 'apiguardian-api', version: apiguardianVersion
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: junitPlatformVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
     testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
     testImplementation group: 'org.apache.activemq', name: 'activemq-client', version: activeMqVersion
     testImplementation group: 'org.apache.commons', name: 'commons-rdf-api', version: commonsRdfVersion
     testImplementation group: 'org.apache.commons', name: 'commons-rdf-simple', version: commonsRdfVersion
-    testImplementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version: junitVersion
     testImplementation group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
     testImplementation group: 'org.trellisldp', name: 'trellis-vocabulary', version: trellisVocabularyVersion
     testImplementation group: 'org.trellisldp', name: 'trellis-event-serialization', version: trellisEventVersion

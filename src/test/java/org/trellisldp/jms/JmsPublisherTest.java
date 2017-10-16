@@ -25,6 +25,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import javax.jms.JMSException;
 import javax.jms.Connection;
@@ -36,11 +37,11 @@ import javax.jms.TextMessage;
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.simple.SimpleRDF;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import org.trellisldp.api.Event;
 import org.trellisldp.api.EventService;
@@ -51,7 +52,7 @@ import org.trellisldp.vocabulary.Trellis;
 /**
  * @author acoburn
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(JUnitPlatform.class)
 public class JmsPublisherTest {
 
     private static final RDF rdf = new SimpleRDF();
@@ -76,8 +77,9 @@ public class JmsPublisherTest {
     @Mock
     private MessageProducer mockProducer;
 
-    @Before
+    @BeforeEach
     public void setUp() throws JMSException {
+        initMocks(this);
         when(mockEvent.getTarget()).thenReturn(of(rdf.createIRI("trellis:repository/resource")));
         when(mockEvent.getAgents()).thenReturn(singleton(Trellis.RepositoryAdministrator));
         when(mockEvent.getIdentifier()).thenReturn(rdf.createIRI("urn:test"));
