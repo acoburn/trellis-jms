@@ -199,7 +199,7 @@ uploadArchives {
                     id 'acoburn'
                     name 'Aaron Coburn'
                     email 'acoburn @ (domain of organization url)'
-                    organization 'Amherst College'
+                    organization = 'Amherst College'
                     organizationUrl 'https://www.amherst.edu'
                     roles {
                         role 'developer'
