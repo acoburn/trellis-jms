@@ -188,7 +188,7 @@ uploadArchives {
             packaging 'jar'
             url 'http://www.trellisldp.org'
             inceptionYear '2017'
-            name 'Trellis Repository JMS Messaging Connector'
+            name 'Trellis JMS Messaging Connector'
             description 'An JMS connector for a trellis repository'
 
             organization {
@@ -248,7 +248,7 @@ checkstyle {
 
 sonarqube {
     properties {
-        property "sonar.projectName", "Trellis Repository JMS Connector"
+        property "sonar.projectName", "Trellis JMS Connector"
         property "sonar.projectKey", "org.trellisldp:trellis-jms"
         property "sonar.links.homepage", "https://github.com/trellis-ldp/trellis"
         property "sonar.links.issue", "https://github.com/trellis-ldp/trellis-jms/issues"
