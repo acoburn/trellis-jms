@@ -30,7 +30,7 @@ ext {
     license = 'Apache 2'
 
     /* Dependencies */
-    trellisApiVersion = '0.4.0'
+    trellisVersion = '0.5.0'
     jmsApiVersion = '2.0.1'
     slf4jVersion = '1.7.25'
 
@@ -39,15 +39,13 @@ ext {
     junitVersion = '5.0.2'
     junitPlatformVersion = '1.0.2'
     apiguardianVersion = '1.0.0'
-    mockitoVersion = '2.12.0'
+    mockitoVersion = '2.13.0'
     logbackVersion = '1.2.3'
-    commonsRdfVersion = '0.3.0-incubating'
-    trellisVocabularyVersion = '0.1.0'
-    trellisEventVersion = '0.1.0'
+    commonsRdfVersion = '0.5.0'
     jacocoVersion = "0.7.9"
 
     /* OSGi */
-    trellisApiVersionRange = '[0.4,1)'
+    trellisApiVersionRange = '[0.5,1)'
     spiflyVersion = '1.0.8'
     projectOsgiVersion = project.version.replaceAll("-SNAPSHOT", ".SNAPSHOT")
 }
@@ -58,7 +56,7 @@ configurations {
 
 dependencies {
     api group: 'javax.jms', name: 'javax.jms-api', version: jmsApiVersion
-    api group: 'org.trellisldp', name: 'trellis-api', version: trellisApiVersion
+    api group: 'org.trellisldp', name: 'trellis-api', version: trellisVersion
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
 
@@ -70,8 +68,8 @@ dependencies {
     testImplementation group: 'org.apache.commons', name: 'commons-rdf-api', version: commonsRdfVersion
     testImplementation group: 'org.apache.commons', name: 'commons-rdf-simple', version: commonsRdfVersion
     testImplementation group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
-    testImplementation group: 'org.trellisldp', name: 'trellis-vocabulary', version: trellisVocabularyVersion
-    testImplementation group: 'org.trellisldp', name: 'trellis-event-serialization', version: trellisEventVersion
+    testImplementation group: 'org.trellisldp', name: 'trellis-vocabulary', version: trellisVersion
+    testImplementation group: 'org.trellisldp', name: 'trellis-event-serialization', version: trellisVersion
 
     buildToolsConfig 'org.trellisldp:trellis-build-tools:0.2.0'
 }
@@ -264,9 +262,9 @@ task docs(type: Javadoc) {
     classpath = files(sourceSets.main.compileClasspath)
     destinationDir = new File(projectDir, "docs/${version}")
     options {
-        links "http://docs.oracle.com/javase/8/docs/api/"
+        links "https://docs.oracle.com/javase/8/docs/api/"
         links "https://commons.apache.org/proper/commons-rdf/apidocs/"
-        links "http://activemq.apache.org/maven/apidocs/"
+        links "https://activemq.apache.org/maven/apidocs/"
         links "https://trellis-ldp.github.io/trellis/apidocs/"
     }
 }

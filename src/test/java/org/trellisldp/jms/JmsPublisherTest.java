@@ -13,10 +13,11 @@
  */
 package org.trellisldp.jms;
 
-import static javax.jms.Session.AUTO_ACKNOWLEDGE;
+import static java.time.Instant.now;
 import static java.util.Collections.singleton;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static javax.jms.Session.AUTO_ACKNOWLEDGE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,6 +28,8 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.time.Instant;
+
 import javax.jms.JMSException;
 import javax.jms.Connection;
 import javax.jms.MessageProducer;
@@ -36,13 +39,11 @@ import javax.jms.TextMessage;
 
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.simple.SimpleRDF;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-
 import org.trellisldp.api.Event;
 import org.trellisldp.api.EventService;
 import org.trellisldp.vocabulary.AS;
@@ -58,6 +59,8 @@ public class JmsPublisherTest {
     private static final RDF rdf = new SimpleRDF();
 
     private final String queueName = "queue";
+
+    private final Instant time = now();
 
     @Mock
     private Connection mockConnection;
@@ -81,7 +84,8 @@ public class JmsPublisherTest {
     public void setUp() throws JMSException {
         initMocks(this);
         when(mockEvent.getTarget()).thenReturn(of(rdf.createIRI("trellis:repository/resource")));
-        when(mockEvent.getAgents()).thenReturn(singleton(Trellis.RepositoryAdministrator));
+        when(mockEvent.getAgents()).thenReturn(singleton(Trellis.AdministratorAgent));
+        when(mockEvent.getCreated()).thenReturn(time);
         when(mockEvent.getIdentifier()).thenReturn(rdf.createIRI("urn:test"));
         when(mockEvent.getTypes()).thenReturn(singleton(AS.Update));
         when(mockEvent.getTargetTypes()).thenReturn(singleton(LDP.RDFSource));
